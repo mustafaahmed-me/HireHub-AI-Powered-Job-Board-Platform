@@ -20,7 +20,7 @@ const Navbar = () => {
         <h1 className="text-2xl font-bold text-gray-800">HireHub</h1>
 
         <div className="flex items-center gap-8 ml-10">
-          <Link href={"/"} className="hidden md:block text-sm font-medium transition-colors hover:text-primary">Browse Jobs</Link>
+          <Link href={"/joblistingpage"} className="hidden md:block text-sm font-medium transition-colors hover:text-primary">Browse Jobs</Link>
           <Link href={"/"} className="text-sm font-medium transition-colors hover:text-primary">Post a Job</Link>
         </div>
       </div>
