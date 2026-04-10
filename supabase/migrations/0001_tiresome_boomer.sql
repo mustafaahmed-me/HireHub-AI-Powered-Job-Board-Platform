@@ -1,0 +1,2 @@
+CREATE TYPE "public"."experience_level" AS ENUM('ENTRY-LEVEL', 'MID-LEVEL', 'SENIOR', 'EXECUTIVE');--> statement-breakpoint
+ALTER TABLE "Post-Jobs" ALTER COLUMN "type" SET DATA TYPE "public"."experience_level" USING "type"::text::"public"."experience_level";

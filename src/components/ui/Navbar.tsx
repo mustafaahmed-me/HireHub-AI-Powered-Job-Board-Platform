@@ -3,7 +3,7 @@ import NavbarActions from "./NavbarActions";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white px-6 md:px-10 py-4 flex justify-between items-center shadow-sm">
+    <nav className="bg-white px-6 md:px-10 py-4 flex justify-between items-center shadow-sm sticky top-0 w-full z-50">
 
       {/* Logo - Left Side */}
       <div className="flex items-center gap-3">
@@ -21,7 +21,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-8 ml-10">
           <Link href={"/joblistingpage"} className="hidden md:block text-sm font-medium transition-colors hover:text-primary">Browse Jobs</Link>
-          <Link href={"/"} className="text-sm font-medium transition-colors hover:text-primary">Post a Job</Link>
+          <Link href={"/post-a-job"} className="text-sm font-medium transition-colors hover:text-primary">Post a Job</Link>
         </div>
       </div>
 
