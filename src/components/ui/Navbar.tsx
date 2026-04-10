@@ -7,17 +7,19 @@ const Navbar = () => {
 
       {/* Logo - Left Side */}
       <div className="flex items-center gap-3">
-        <div className="flex flex-col gap-0.5">
-          <div className="flex gap-0.5">
-            <span className="w-2.5 h-2.5 bg-blue-500 rounded-sm block" />
-            <span className="w-2.5 h-2.5 bg-red-400 rounded-sm block" />
+        <Link href={"/"} className="flex items-center gap-3">
+          <div className="flex flex-col gap-0.5">
+            <div className="flex gap-0.5">
+              <span className="w-2.5 h-2.5 bg-blue-500 rounded-sm block" />
+              <span className="w-2.5 h-2.5 bg-red-400 rounded-sm block" />
+            </div>
+            <div className="flex gap-0.5">
+              <span className="w-2.5 h-2.5 bg-yellow-400 rounded-sm block" />
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-sm block" />
+            </div>
           </div>
-          <div className="flex gap-0.5">
-            <span className="w-2.5 h-2.5 bg-yellow-400 rounded-sm block" />
-            <span className="w-2.5 h-2.5 bg-green-400 rounded-sm block" />
-          </div>
-        </div>
-        <h1 className="text-2xl font-bold text-gray-800">HireHub</h1>
+          <h1 className="text-2xl font-bold text-gray-800">HireHub</h1>
+        </Link>
 
         <div className="flex items-center gap-8 ml-10">
           <Link href={"/joblistingpage"} className="hidden md:block text-sm font-medium transition-colors hover:text-primary">Browse Jobs</Link>
