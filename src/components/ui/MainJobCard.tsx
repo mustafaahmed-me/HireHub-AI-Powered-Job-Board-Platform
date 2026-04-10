@@ -13,7 +13,7 @@ interface JobCardProps{
 const MainJobCard = async ({jobData} : JobCardProps) => {
   return (
     <div>
-        <Card className="p-5">
+        <Card className="p-5 min-h-80 md:min-h-125">
             <CardContent>
                 <div className="flex justify-between">
                     <div className="flex flex-col gap-2">
