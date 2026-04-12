@@ -1,11 +1,12 @@
 "use server"
 
 import { db } from "@/lib/db"
-import { jobs, NewJob, users } from "@/lib/schema"
+import { jobs, NewJob, NewUser, users } from "@/lib/schema"
 import { desc ,eq} from "drizzle-orm"
 import { auth,currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
 import { jobFormSchema, JobFormValues } from "@/lib/validators"
+import { timestamp } from "drizzle-orm/gel-core"
 
 export async function getJobs(){
     try{
@@ -82,3 +83,27 @@ export async function postJobs(jobsData : JobFormValues){
         return { success : false, error : "Failed to create the job"}
     }
 }
+
+    export async function updateProfile(profileData : NewUser){
+        const {userId} = await auth()
+        if (!userId) {
+            return { success: false, error: "User not found or not logged in" };
+        }
+
+         try {
+        await db.update(users).set({
+            role: profileData.role,
+            image: profileData.image,
+            name: profileData.name,
+            email: profileData.email,
+            resume: profileData.resume,
+            skills: profileData.skills,
+        }).where(eq(users.id, userId));
+        revalidatePath("/Profile/profilePage");
+        return { success: true };
+    } catch (error) {
+        console.log(error);
+        return { success: false, error: "Failed to update the profile" };
+    }
+    }
+   

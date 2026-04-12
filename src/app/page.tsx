@@ -9,56 +9,85 @@ export default async function Home() {
 
   return (
     <>
+{/* Hero Section */}
+{/* Hero Section */}
+<section
+  className="relative text-white px-6 md:px-20 py-24 md:py-40 flex items-center min-h-162.5 overflow-hidden"
+  style={{
+    backgroundImage: "url('/img1.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  {/* Modern Overlay: Dark to Transparent Gradient */}
+  <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
 
-      {/* Hero Section */}
-      <section
-        className="relative text-white px-6 md:px-16 py-20 md:py-32 flex items-center min-h-120"
-        style={{
-          backgroundImage: "url('/img1.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/55" />
+  {/* Ambient Background Glows (For VIP look) */}
+  <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-600/20 rounded-full blur-[120px]" />
+  <div className="absolute bottom-1/4 right-0 w-60 h-60 bg-indigo-600/10 rounded-full blur-[100px]" />
 
-        {/* Text + Search */}
-        <div className="relative z-10 max-w-xl">
-          <h2 className="text-3xl md:text-5xl font-bold mb-3">
-            Find Your Dream Job
-          </h2>
-          <p className="text-gray-200 mb-8 text-sm md:text-base">
-            Your next career move starts here. Explore thousands of job opportunities.
-          </p>
+  <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
+    
+    {/* LEFT SIDE: Typography & Branding */}
+    <div className="flex-1 text-center md:text-left space-y-6">
+      <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 mb-2">
+        <span className="relative flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+        </span>
+        <span className="text-xs font-medium tracking-widest uppercase text-blue-300">New Opportunities Live</span>
+      </div>
 
-          {/* Search Bar */}
-          <div className="bg-white rounded-lg flex flex-col md:flex-row overflow-hidden shadow-lg w-full md:w-140">
-            <div className="flex items-center flex-1 px-3 border-b md:border-b-0 md:border-r border-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400 mr-2 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Job Title or Keyword"
-                className="flex-1 py-3 text-black text-sm outline-none"
-              />
-            </div>
-            <div className="flex items-center flex-1 px-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400 mr-2 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Location"
-                className="flex-1 py-3 text-black text-sm outline-none"
-              />
-            </div>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 text-sm font-medium transition-colors">
-              Search
-            </button>
+      <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1]">
+        Find Your <br />
+        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-400">
+          Dream Job.
+        </span>
+      </h2>
+      
+      <p className="text-gray-400 text-lg md:text-xl max-w-lg leading-relaxed font-medium">
+        Don&apos;t just search for work. Build a career that defines you. Join the elite network of professionals.
+      </p>
+
+      {/* Trust Badges or Stats */}
+      <div className="pt-4 flex flex-wrap justify-center md:justify-start gap-6 opacity-60">
+        <div className="text-sm font-bold">10k+ <span className="font-normal block text-xs">Active Jobs</span></div>
+        <div className="text-sm font-bold">500+ <span className="font-normal block text-xs">Top Companies</span></div>
+        <div className="text-sm font-bold">24/7 <span className="font-normal block text-xs">Expert Support</span></div>
+      </div>
+    </div>
+
+    {/* RIGHT SIDE: VIP Circular CTA Card */}
+    <div className="relative group">
+      {/* Decorative Rotating Ring */}
+      <div className="absolute inset-0 rounded-full border-2 border-dashed border-white/20 animate-[spin_20s_linear_infinite]" />
+      
+      <Link href="/Profile/form">
+        <div className="relative w-52 h-52 md:w-72 md:h-72 bg-white/5 backdrop-blur-xl rounded-full flex flex-col items-center justify-center text-center p-8 border border-white/20 shadow-[0_0_50px_rgba(37,99,235,0.3)] transition-all duration-700 hover:bg-white/10 hover:border-blue-500/50 group">
+          
+          {/* Inner Floating Icon */}
+          <div className="mb-4 w-16 h-16 bg-blue-600 rounded-2xl rotate-12 flex items-center justify-center shadow-lg transition-transform group-hover:rotate-0 group-hover:scale-110 duration-500">
+             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+             </svg>
           </div>
+
+          <h3 className="text-xl md:text-2xl font-bold tracking-tight">Create Profile</h3>
+          <p className="text-xs text-blue-300 mt-1 uppercase tracking-widest font-bold">Get Started Now</p>
+          
+          {/* Glow effect on hover */}
+          <div className="absolute inset-0 rounded-full bg-blue-500/0 group-hover:bg-blue-500/5 transition-all duration-500" />
         </div>
-      </section>
+      </Link>
+      
+      {/* Small floating elements */}
+      <div className="absolute -top-4 -right-4 w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center animate-bounce shadow-xl">
+        <span className="text-white text-lg">🚀</span>
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* Job Categories Section */}
       <section className="bg-gray-100 flex justify-center py-16">
