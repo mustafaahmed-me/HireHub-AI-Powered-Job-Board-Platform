@@ -11,7 +11,7 @@ const NavbarActions = () => {
       {isSignedIn ? (
         <div className="flex items-center gap-3">
           <Link 
-            href="/CandidateDashboard"
+            href="/dashboard"
             className="bg-black text-white px-4 py-2 rounded-md text-sm"
           >
             Dashboard
