@@ -3,8 +3,6 @@
 import { db } from "@/lib/db"
 import { jobs, NewJob, NewUser, users } from "@/lib/schema"
 import { and, desc ,eq} from "drizzle-orm"
-import { jobs, NewUser, users } from "@/lib/schema"
-import { desc ,eq} from "drizzle-orm"
 import { auth,currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
 import { jobFormSchema, JobFormValues } from "@/lib/validators"
