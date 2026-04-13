@@ -1,6 +1,8 @@
 "use server"
 
 import { db } from "@/lib/db"
+import { jobs, NewJob, NewUser, users } from "@/lib/schema"
+import { and, desc ,eq} from "drizzle-orm"
 import { jobs, NewUser, users } from "@/lib/schema"
 import { desc ,eq} from "drizzle-orm"
 import { auth,currentUser } from "@clerk/nextjs/server"
@@ -20,6 +22,33 @@ export async function getJobs(){
         return []
     }
 }
+
+// Isse imports mein add kar lena (and eq to already hai hi)
+export async function deleteJob(jobId: string) {
+    const { userId } = await auth();
+
+    if (!userId) {
+        return { success: false, error: "User not logged in" };
+    }
+
+    try {
+        // Hum check karenge ke job delete karne wala wahi user hai jisne post ki thi
+        await db.delete(jobs).where(
+            and(
+                eq(jobs.id, jobId),
+                eq(jobs.userId, userId)
+            )
+        );
+
+        revalidatePath("/jobs");
+        revalidatePath("/dashboard/my-posted-jobs"); // Apne actual path ke mutabiq change karlein
+        return { success: true };
+    } catch (error) {
+        console.log(error);
+        return { success: false, error: "Failed to delete the job" };
+    }
+}
+
 export async function getJobsForHomePage(){
     try{
         const jobsData = await db
