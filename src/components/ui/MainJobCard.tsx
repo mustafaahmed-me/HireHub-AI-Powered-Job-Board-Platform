@@ -33,7 +33,7 @@ const MainJobCard = async ({jobData} : JobCardProps) => {
                     <Badge className="text-[11px] tracking-wider font-heading" variant={"secondary"}>💵 {jobData.salary ? jobData.salary : "Competitive"}</Badge>
                 </div>
 
-                <div className="pt-4.5 flex flex-col gap-4 border-b pb-4.5">
+                <div className="pt-4.5 flex flex-col gap-4 border-b pb-4.5 wrap-break-word">
                     <p>📄 About the role</p>
                     <p className="text-gray-600 w-[90%]">{jobData.description}</p>
                 </div>

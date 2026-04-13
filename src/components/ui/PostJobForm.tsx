@@ -58,30 +58,27 @@ const PostJobForm = () => {
     });
 
 
-    const onSubmit = async (data : JobFormValues,) => {
+    const onSubmit = async (data : JobFormValues) => {
         setLoading(true)
         try {
-            const response = await postJobs(data);
-            if(response.success){
-                toast.success("Your job has been posted successfully!")
-                form.reset()
-                
-            }else{
-                toast.error(response.error || "An error occured")
-            }
-
+          const response = await postJobs(data);
+          if(response.success){
+            toast.success("Your job has been posted successfully!")
+            form.reset()
+          }else{
+            toast.error(response.error || "An error occured")
+          }
         } catch (error) {
-            console.log(error);
-            toast.error("An unexpected error occured. Please try again.")
+          toast.error("An unexpected error occured. Please try again.")
         }finally{
-            setLoading(false)
+          setLoading(false)
         }
     }
         
   return (
     <Card className="my-8">
         <CardContent>
-            <form id="post-job-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <form id="post-job-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="title"

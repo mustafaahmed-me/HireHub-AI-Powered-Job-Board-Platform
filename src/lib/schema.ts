@@ -16,6 +16,7 @@ export const users = pgTable('Users', {
   role: roleEnum('role').default('SEEKER').notNull(),
   resume: text('resume'),
   skills: text('skills').array(), // PostgreSQL array
+  applications: text('applications').array().default([]),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
