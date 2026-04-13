@@ -1,54 +1,102 @@
-"use client";
 
-import { useState, useMemo } from "react";
-import Sidebar from "@/components/ui/Sidebar";
+"use client";
+import { useEffect, useMemo, useState } from "react";
+import { getJobs } from "../../../actions/jobActions";
 import JobCard from "@/components/ui/JobCard";
-import { jobs } from "@/app/data/job";
-import Link from "next/link";
+import FilterBar from "@/components/ui/filterBar";
+import Pagination from "@/components/ui/pagination";
+
+import { Job } from "@/lib/schema";
+
+const PAGE_SIZE = 6;
 
 export default function JobsPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [search, setSearch] = useState("");
+  const [location, setLocation] = useState("");
   const [jobType, setJobType] = useState("");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchJobs = async () => {
+    const data = await getJobs();
+    setJobs(data || []);
+  };
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
-      return (
-        job.title.toLowerCase().includes(search.toLowerCase()) &&
-        (jobType === "" || job.type === jobType)
-      );
+      const searchTerm = search.trim().toLowerCase();
+      const locationTerm = location.trim().toLowerCase();
+
+      const matchesSearch = searchTerm
+        ? [job.title, job.company, job.description]
+            .join(" ")
+            .toLowerCase()
+            .includes(searchTerm)
+        : true;
+
+      const matchesLocation = locationTerm
+        ? job.location.toLowerCase().includes(locationTerm)
+        : true;
+
+      const matchesJobType = jobType ? job.jobType === jobType : true;
+
+      return matchesSearch && matchesLocation && matchesJobType;
     });
-  }, [search, jobType]);
+  }, [jobs, search, location, jobType]);
+
+  const paginatedJobs = useMemo(() => {
+    const startIndex = (page - 1) * PAGE_SIZE;
+    return filteredJobs.slice(startIndex, startIndex + PAGE_SIZE);
+  }, [filteredJobs, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, location, jobType]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  useEffect(() => {
+    setHasMore(filteredJobs.length > page * PAGE_SIZE);
+  }, [filteredJobs, page]);
 
   return (
-    <div className="bg-gray-100 min-h-screen flex">
+    <div className="bg-gray-100 min-h-screen">
+      <div className="flex">
 
-      <Sidebar setJobType={setJobType} jobType={jobType} />
+        
+    
+        {/* Main Content */}
+        <div className="flex-1 p-6">
 
-      <div className="flex-1 p-8">
-
-        <div className="mb-8">
-          <input
-            type="text"
-            placeholder="Search jobs..."
-            className="w-full p-4 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+          {/* FilterBar */}
+          <FilterBar
+            search={search}
+            setSearch={setSearch}
+            location={location}
+            setLocation={setLocation}
+            jobType={jobType}
+            setJobType={setJobType}
           />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredJobs.length > 0 ? (
-            filteredJobs.map((job, index) => (
-              <JobCard key={index} job={job} />
-            ))
-          ) : (
-            <p className="text-gray-500">No jobs found</p>
-          )}
-        </div>
+          {/* Jobs Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {paginatedJobs.length > 0 ? (
+              paginatedJobs.map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))
+            ) : (
+              <p className="text-gray-500 col-span-3">No jobs found</p>
+            )}
+          </div>
 
+          {/* Pagination */}
+          <Pagination page={page} setPage={setPage} hasMore={hasMore} />
+
+        </div>
       </div>
-
-      {/* <Link href={""}></Link> */}
     </div>
   );
 }
