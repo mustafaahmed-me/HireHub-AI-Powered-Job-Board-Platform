@@ -1,7 +1,7 @@
 
-
 import type { Job } from "@/lib/schema";
 import Link from "next/link";
+
 
 const jobTypeConfig: Record<string, { label: string; className: string }> = {
   FULL_TIME:   { label: "Full-time",   className: "bg-blue-50 text-blue-700" },
@@ -16,6 +16,7 @@ export default function JobCard({ job }: { job: Job }) {
     label: job.jobType,
     className: "bg-gray-100 text-gray-600",
   };
+
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col min-h-70 hover:shadow-lg transition-shadow duration-200">
@@ -67,6 +68,7 @@ export default function JobCard({ job }: { job: Job }) {
               {job.salary}
             </p>
           </div>
+
           <div className="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center">
             <svg className="w-4 h-4 text-green-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="8" cy="8" r="6.5"/>

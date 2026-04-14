@@ -3,7 +3,9 @@ import { Card, CardContent} from "@/components/ui/card"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { BookMarked, MapPin } from "lucide-react"
+import { getJobsWithMatchScore } from "../../../actions/jobActions";
 import { success } from "zod"
+import AiMatchScore from "./AiMatchScore"
 
 
 interface JobCardProps{
@@ -11,6 +13,10 @@ interface JobCardProps{
 }
 
 const MainJobCard = async ({jobData} : JobCardProps) => {
+
+     const aiFeatureMatchScore = await getJobsWithMatchScore();
+
+
   return (
     <div>
         <Card className="p-5 min-h-80 md:min-h-125">
@@ -55,6 +61,11 @@ const MainJobCard = async ({jobData} : JobCardProps) => {
                             year : "numeric"
                         })}</p>
                     </div>
+
+                    <div>
+                        <AiMatchScore jobDetails={jobData} />
+                    </div>
+
                     <div>
                         <Badge className=" font-medium flex gap-2 cursor-pointer active:scale-95">
                             <p>Save</p>

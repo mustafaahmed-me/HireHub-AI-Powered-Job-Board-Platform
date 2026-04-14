@@ -66,8 +66,6 @@ export default function JobsPage() {
     <div className="bg-gray-100 min-h-screen">
       <div className="flex">
 
-        
-    
         {/* Main Content */}
         <div className="flex-1 p-6">
 
@@ -100,3 +98,6 @@ export default function JobsPage() {
     </div>
   );
 }
+
+
+

@@ -7,6 +7,7 @@ import { db } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { Badge } from '@/components/ui/badge';
 import JobApplyBtn from "@/components/ui/JobApplyBtn";
+import AiFeatureMatchScore from "@/components/ui/AiMatchScore";
 
 async function Home({params} : {params : {jobId : string}}) {
   const {jobId} = await params;
@@ -14,6 +15,8 @@ async function Home({params} : {params : {jobId : string}}) {
   const jobDetail = await db.query.jobs.findFirst({
     where: eq(jobs.id,jobId)
   })
+
+
   
   return (
     <>
@@ -53,15 +56,21 @@ async function Home({params} : {params : {jobId : string}}) {
                 <LocationOnOutlinedIcon fontSize="small" className="text-black" />
 
                 <span>{jobDetail?.location}</span>
-
+                  
               </div>
+
+              
             </div>
+
+               <div> 
+                 <AiFeatureMatchScore  jobDetails={jobDetail}/>
+               </div>
 
             <div className="flex justify-items-start md:justify-end items-center gap-2 pr-5 font-semibold text-sm md:text-base">
 
-              <TwoWheelerSharpIcon fontSize='large' className='text-yellow-500' />
+                <TwoWheelerSharpIcon fontSize='large' className='text-yellow-500' />
 
-              <span>Salary : {jobDetail?.salary ? jobDetail.salary : "Competative"}</span>
+                <span>Salary : {jobDetail?.salary ? jobDetail.salary : "Competative"}</span>
 
             </div>
 
@@ -103,6 +112,7 @@ async function Home({params} : {params : {jobId : string}}) {
                   <Badge variant={"secondary"} className='text-gray-800'>Location</Badge>
                   <span>:</span>
                   <span>{jobDetail?.location}</span>
+                  <AiFeatureMatchScore jobDetails={jobDetail} />
                 </div>
 
                 <div className="flex items-center gap-2">

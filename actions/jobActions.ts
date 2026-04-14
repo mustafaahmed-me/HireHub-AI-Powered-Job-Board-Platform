@@ -5,6 +5,7 @@ import { jobs, NewJob, NewUser, users } from "@/lib/schema"
 import { and, desc ,eq} from "drizzle-orm"
 import { auth,currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
+import { calculateMatchScore } from "@/lib/matchScore";
 import { jobFormSchema, JobFormValues } from "@/lib/validators"
 
 export async function getJobs(){
@@ -132,4 +133,35 @@ export async function postJobs(jobsData : JobFormValues){
         return { success: false, error: "Failed to update the profile" };
     }
     }
+
+
+
+export async function getJobsWithMatchScore() {
+  const { userId } = await auth();
+  if (!userId) return [];
+
+  // User ki skills lao
+  const userArr = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  const userSkills = userArr[0]?.skills ?? [];
+
+  // Saari jobs lao
+  const allJobs = await db
+    .select()
+    .from(jobs)
+    .orderBy(desc(jobs.createdAt));
+
+  // Har job pe match score calculate karo
+  const jobsWithScore = allJobs.map((job) => ({
+    ...job,
+    matchScore: calculateMatchScore(userSkills, job.skills ?? []),
+  }));
+
+  // Score ke hisaab se sort karo — highest pehle
+  return jobsWithScore.sort((a, b) => b.matchScore - a.matchScore);
+}
    
