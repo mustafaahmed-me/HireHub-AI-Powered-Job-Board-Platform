@@ -11,7 +11,7 @@ export default async function Home() {
     <>
       {/* Hero Section */}
       <section
-        className="relative text-white px-6 md:px-20 py-24 md:py-40 flex items-center h-[65vh] overflow-hidden"
+        className="relative text-white px-6 md:px-20 py-24 md:py-40 flex items-center h-[75vh] md:h-[65vh] overflow-hidden"
         style={{
           backgroundImage: "url('/img1.jpg')",
           backgroundSize: "cover",
@@ -21,12 +21,11 @@ export default async function Home() {
         {/* Modern Overlay: Dark to Transparent Gradient */}
         <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
 
-        {/* Ambient Background Glows (For VIP look) */}
+        {/* Ambient Background Glows */}
         <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-600/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-0 w-60 h-60 bg-indigo-600/10 rounded-full blur-[100px]" />
 
-        <div className="relative z-10 w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-          
+        <div className="relative z-10 w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8">
           {/* LEFT SIDE: Typography & Branding */}
           <div className="flex-1 text-center md:text-left space-y-3">
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 mb-2">
@@ -49,7 +48,7 @@ export default async function Home() {
             </p>
 
             {/* Trust Badges or Stats */}
-            <div className="pt-4 flex flex-wrap justify-center md:justify-start gap-6 opacity-60">
+            <div className="flex flex-wrap justify-center md:justify-start gap-6 opacity-60">
               <div className="text-sm font-bold">10k+ <span className="font-normal block text-xs">Active Jobs</span></div>
               <div className="text-sm font-bold">500+ <span className="font-normal block text-xs">Top Companies</span></div>
               <div className="text-sm font-bold">24/7 <span className="font-normal block text-xs">Expert Support</span></div>
