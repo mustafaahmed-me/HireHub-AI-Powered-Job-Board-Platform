@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db"
-import { jobs, NewJob, NewUser, users } from "@/lib/schema"
+import { jobs, NewJob, NewUser, users, applications } from "@/lib/schema"
 import { and, desc ,eq} from "drizzle-orm"
 import { auth,currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
@@ -165,3 +165,50 @@ export async function getJobsWithMatchScore() {
   return jobsWithScore.sort((a, b) => b.matchScore - a.matchScore);
 }
    
+// --- Dashboard Specific Actions ---
+
+// 1. Job Seeker ke liye: User ki saari applications aur job details lao
+export async function getUserApplications() {
+  const { userId } = await auth();
+  if (!userId) return [];
+
+  try {
+    const userApps = await db
+      .select({
+        id: applications.id,
+        status: applications.status,
+        createdAt: applications.createdAt,
+        jobTitle: jobs.title,     // Jobs table se title
+        company: jobs.company,    // Jobs table se company
+        location: jobs.location,  // Jobs table se location
+      })
+      .from(applications)
+      .leftJoin(jobs, eq(applications.jobId, jobs.id)) // Join lagaya hai
+      .where(eq(applications.userId, userId))
+      .orderBy(desc(applications.createdAt));
+
+    return userApps;
+  } catch (err) {
+    console.error("Error fetching user applications:", err);
+    return [];
+  }
+}
+
+// 2. Employer ke liye: Sirf uski post ki hui jobs lao
+export async function getEmployerJobs() {
+  const { userId } = await auth();
+  if (!userId) return [];
+
+  try {
+    const employerJobs = await db
+      .select()
+      .from(jobs)
+      .where(eq(jobs.userId, userId))
+      .orderBy(desc(jobs.createdAt));
+      
+    return employerJobs;
+  } catch (err) {
+    console.error("Error fetching employer jobs:", err);
+    return [];
+  }
+}

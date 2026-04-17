@@ -1,109 +1,80 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { getUserApplications } from "../../../actions/jobActions";
+
 function JobSeeker() {
-  
+    const [applications, setApplications] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getUserApplications();
+            setApplications(data);
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
+
+    // Dynamic Stats calculation
     const stats = [
-        { title: "Total Applications", value: 8 },
-        { title: "Accepted", value: 3 },
-        { title: "Shortlisted", value: 1 }
+        { title: "Total Applications", value: applications.length },
+        { title: "Accepted", value: applications.filter(a => a.status === 'ACCEPTED').length },
+        { title: "Shortlisted", value: applications.filter(a => a.status === 'SHORTLISTED').length }
     ];
 
-    const recentApplications: any[] = [
-    
-        {jobTitle: "Frontend Developer", status: "Systems Ltd", city: "Karachi", date: "2 Apr", message: "Ahortlisted"},
-        {jobTitle: "React Engenior", status: "Systems Ltd", city: "Remote", date: "30 Mar", message: "Accepted"},
-        {jobTitle: "UI Developer", status: "Systems Ltd", city: "Lahore", date: "28 Mar", message: "Reviewed"},
-        {jobTitle: "Next.js Developer", status: "Systems Ltd", city: "Remote", date: "25 Mar", message: "Pending"}
-    
-    ];
+    if (loading) return <div className="text-2xl text-center my-50">Loading Seeker Data...!</div>;
 
     return (
         <>
             <div className="flex flex-wrap gap-4 my-5">
-
                 {stats.map((stat, index) => {
-
-                    let textColor = "";
-
-                    if (index === 0) {
-                      textColor = "text-[#1e1b4b]";
-                    }
-                    else if (index === 1) {
-                      textColor = "text-[#7c3aed]";
-                    }
-                    else if (index === 2) {
-                      textColor = "text-[#059669]";
-                    }
-
+                    let textColor = index === 0 ? "text-[#1e1b4b]" : index === 1 ? "text-[#7c3aed]" : "text-[#059669]";
                     return (
-
                         <div key={index} className="bg-white border border-gray-200 rounded-xl p-4 w-full sm:w-78">
                             <p className="text-sm text-gray-500">{stat.title}</p>
-
-                            <p className={`text-3xl font-extrabold ${textColor}`}>{stat.value ?? 0}</p>
+                            <p className={`text-3xl font-extrabold ${textColor}`}>{stat.value}</p>
                         </div>
-
                     );
-
                 })}
-
             </div>
 
             <div className="w-full">
-
                 <h2 className="font-semibold text-gray-700 pt-2.5">Recent Applications</h2>
-
                 <div className="rounded-2xl mt-2 flex flex-col gap-3">
-
-                    {recentApplications.length === 0 ? (
-
-                        <h5 className="text-gray-400 text-4xl text-center my-40">No Applications Yet...!</h5>
-
+                    {applications.length === 0 ? (
+                        <h5 className="text-gray-400 text-4xl text-center my-40">DATA NOT FOUND...!</h5>
                     ) : (
-
-                        recentApplications.map((app, index) => {
-
+                        applications.map((app) => {
                             let btnStyle = "";
-
-                            if (app.message === "Ahortlisted") {
-                                btnStyle ="text-[#572a9c] border-[#572a9c] bg-[#ede9fe]";
-                            }
-                            else if (app.message === "Accepted") {
-                                btnStyle ="text-[#059669] border-[#059669] bg-[#d1fae5]";
-                            }
-                            else if (app.message === "Reviewed") {
-                                btnStyle ="text-[#2563eb] border-[#2563eb] bg-[#dbeafe]";
-                            }
-                            else if (app.message === "Pending") {
-                                btnStyle ="text-[#ca8a04] border-[#ca8a04] bg-[#fef9c3]";
-                            }
+                            // Status mapping based on your Enum
+                            if (app.status === "SHORTLISTED") btnStyle = "text-[#572a9c] border-[#572a9c] bg-[#ede9fe]";
+                            else if (app.status === "ACCEPTED") btnStyle = "text-[#059669] border-[#059669] bg-[#d1fae5]";
+                            else if (app.status === "REVIEWED") btnStyle = "text-[#2563eb] border-[#2563eb] bg-[#dbeafe]";
+                            else if (app.status === "REJECTED") btnStyle = "text-red-600 border-red-600 bg-red-50";
+                            else btnStyle = "text-[#ca8a04] border-[#ca8a04] bg-[#fef9c3]"; // Pending
 
                             return (
-
-                                <div key={index} className="bg-white py-3.75 px-4 flex justify-between flex-wrap items-center rounded-xl">
-
+                                <div key={app.id} className="bg-white py-4 px-4 flex justify-between flex-wrap items-center rounded-xl shadow-sm">
                                     <div>
-                                        <p className="font-medium">{app.jobTitle}</p>
-
-                                        <p className="text-sm text-gray-500">{app.status} - {app.city} - {app.date}</p>
+                                        <p className="font-medium">{app.jobTitle || "Position"}</p>
+                                        <p className="text-sm text-gray-500">
+                                            {app.company} - {app.location} - {new Date(app.createdAt).toLocaleDateString()}
+                                        </p>
                                     </div>
-
                                     <div className="w-25 mr-0 md:mr-16">
-                                        <button className={`text-sm border px-3 py-1 rounded-lg font-bold cursor-pointer ${btnStyle}`}>{app.message}</button>
+                                        <button className={`text-xs border px-3 py-1 rounded-lg font-bold w-full uppercase ${btnStyle}`}>
+                                            {app.status}
+                                        </button>
                                     </div>
-
                                 </div>
-
                             );
-
                         })
-
                     )}
-
                 </div>
-
             </div>
         </>
     );
-
 }
 
-export default JobSeeker
+export default JobSeeker;
